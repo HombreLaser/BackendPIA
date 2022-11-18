@@ -71,6 +71,9 @@ namespace BackendPIA.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
+                    b.Property<DateTime?>("SessionTokenExpiryTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
@@ -92,17 +95,17 @@ namespace BackendPIA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d42006bc-7f69-4aa4-b247-eb9e2abfe0ec",
+                            Id = "24edc3d6-bf9c-41a1-9371-224e4419ccb0",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8bbb8fce-308b-4822-97e1-5741fc955a90",
+                            ConcurrencyStamp = "bd624bcb-3f06-4bce-b924-2666f82e5f23",
                             Email = "admin@example.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEENVY01/0BOrBai8zaioq9GOr+ftYIZhUBtulPtda1tTREUCOeVst9cnrB7Ogz4Bsg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL19rXYOEkR3ftL+T5E5vlsLGPu3HSnJuTSLNp/nyffvQvaXlNJFqU1UO3VKB+K6yg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5a1e1053-690e-4610-ab66-7a86fe2e04c8",
+                            SecurityStamp = "282566ca-8a3b-4310-8e61-8380d16fa07e",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -136,8 +139,8 @@ namespace BackendPIA.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "24edc3d6-bf9c-41a1-9371-224e4419ccb0",
-                            ConcurrencyStamp = "24edc3d6-bf9c-41a1-9371-224e4419ccb0",
+                            Id = "d42006bc-7f69-4aa4-b247-eb9e2abfe0ec",
+                            ConcurrencyStamp = "d42006bc-7f69-4aa4-b247-eb9e2abfe0ec",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -232,8 +235,8 @@ namespace BackendPIA.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "d42006bc-7f69-4aa4-b247-eb9e2abfe0ec",
-                            RoleId = "24edc3d6-bf9c-41a1-9371-224e4419ccb0"
+                            UserId = "24edc3d6-bf9c-41a1-9371-224e4419ccb0",
+                            RoleId = "d42006bc-7f69-4aa4-b247-eb9e2abfe0ec"
                         });
                 });
 
