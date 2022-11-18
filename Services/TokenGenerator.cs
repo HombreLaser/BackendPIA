@@ -33,7 +33,8 @@ namespace BackendPIA.Services {
             byte[] random_number = new byte[16];
             RandomNumberGenerator rng = RandomNumberGenerator.Create();
             rng.GetBytes(random_number);
-            return string.Join("", random_number);
+            
+            return Convert.ToBase64String(random_number);
         }
     }
 }
