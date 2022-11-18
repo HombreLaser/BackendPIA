@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using BackendPIA.Models;
+using BackendPIA.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseNpgsql(builder
 builder.Services.AddIdentity<UserAccount, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 // Automapper configuration.
 builder.Services.AddAutoMapper(typeof(Program));
+
+// Custom services configuration.
+builder.Services.AddSingleton<ITokenGenerator>(s => new TokenGenerator(builder.Configuration["Jwt:Key"]));
+// End of custom services configuration.
 
 // Swagger configuration.
 builder.Services.AddEndpointsApiExplorer();
