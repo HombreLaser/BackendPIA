@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackendPIA.Models {
     public class ApplicationDbContext : IdentityDbContext {
-	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {
-	}
+	    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
     }
 }
