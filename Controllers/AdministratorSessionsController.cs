@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using BackendPIA.Forms;
 using BackendPIA.Models;
@@ -10,12 +12,10 @@ namespace BackendPIA.Controllers {
     [Route("api/admin")]
     [ApiController]
     public class AdministratorSessionsController : ControllerBase {
-        private readonly ApplicationDbContext _context;
         private readonly ITokenGenerator _token_generator;
         private readonly UserManager<UserAccount> _manager;
 
-        public AdministratorSessionsController(ApplicationDbContext context, ITokenGenerator token_generator, UserManager<UserAccount> manager) {
-            _context = context;
+        public AdministratorSessionsController(ITokenGenerator token_generator, UserManager<UserAccount> manager) {
             _token_generator = token_generator;
             _manager = manager;
         }

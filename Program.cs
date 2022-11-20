@@ -23,6 +23,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 // Custom services configuration.
 builder.Services.AddSingleton<ITokenGenerator>(s => new TokenGenerator(builder.Configuration["Jwt:Key"]));
+builder.Services.AddSingleton<IUserAccountService, UserAccountService>();
 // End of custom services configuration.
 
 // Swagger configuration.
@@ -67,6 +68,9 @@ builder.Services.AddAuthentication(options => {
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
         ClockSkew = TimeSpan.Zero }
     );
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy("IsAdministrator", policy => policy.RequireClaim("administrator"));
+});
 // End of authentication configuration.
 
 // Identity configuration.

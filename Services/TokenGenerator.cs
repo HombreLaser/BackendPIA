@@ -16,7 +16,7 @@ namespace BackendPIA.Services {
         public string Generate(UserAccount user, string role) {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
 	        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expiration = DateTime.UtcNow.AddMinutes(20);
+            var expiration = DateTime.UtcNow.AddMinutes(1);
             //var issuer = _configuration["Jwt:Issuer"];
             var claims = new List<Claim> {
 		        new Claim("sid", user.Id),

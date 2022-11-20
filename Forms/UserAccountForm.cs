@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using AutoMapper.Configuration.Annotations;
+
 
 namespace BackendPIA.Forms {
     public class UserAccountForm {
@@ -9,6 +11,7 @@ namespace BackendPIA.Forms {
         public string? UserName { get; set; }
 
         [Required]
+        [Ignore]
         public string? Password { get; set; }
     }
 }
