@@ -43,7 +43,7 @@ namespace BackendPIA.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Raffles");
+                    b.ToTable("Raffles", (string)null);
                 });
 
             modelBuilder.Entity("BackendPIA.Models.UserAccount", b =>
