@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BackendPIA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221118214838_AddTokenExpiryTimeToUser")]
-    partial class AddTokenExpiryTimeToUser
+    [Migration("20221121000226_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,24 +94,6 @@ namespace BackendPIA.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "24edc3d6-bf9c-41a1-9371-224e4419ccb0",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "bd624bcb-3f06-4bce-b924-2666f82e5f23",
-                            Email = "admin@example.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEL19rXYOEkR3ftL+T5E5vlsLGPu3HSnJuTSLNp/nyffvQvaXlNJFqU1UO3VKB+K6yg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "282566ca-8a3b-4310-8e61-8380d16fa07e",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -138,15 +120,6 @@ namespace BackendPIA.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "d42006bc-7f69-4aa4-b247-eb9e2abfe0ec",
-                            ConcurrencyStamp = "d42006bc-7f69-4aa4-b247-eb9e2abfe0ec",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -234,13 +207,6 @@ namespace BackendPIA.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "24edc3d6-bf9c-41a1-9371-224e4419ccb0",
-                            RoleId = "d42006bc-7f69-4aa4-b247-eb9e2abfe0ec"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
