@@ -1,6 +1,5 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using BackendPIA.Forms;
 using BackendPIA.Models;
@@ -9,7 +8,7 @@ using BackendPIA.Errors;
 using BackendPIA.Logics;
 
 namespace BackendPIA.Controllers {
-    [Route("api/admin")]
+    [Route("api/")]
     [ApiController]
     public class AdministratorSessionsController : ControllerBase {
         private readonly ITokenGenerator _token_generator;
@@ -22,7 +21,7 @@ namespace BackendPIA.Controllers {
 
         [HttpPost("login")]
         public async Task<ActionResult<AuthenticationToken>> Create(UserAccountLoginForm form) {
-            CreateAdministratorSessionLogic logic = new CreateAdministratorSessionLogic(_token_generator, _manager, form);
+            CreateUserAccountSessionLogic logic = new CreateUserAccountSessionLogic(_token_generator, _manager, form);
             var result = await logic.Call();
 
             if(result)

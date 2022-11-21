@@ -1,34 +1,33 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using BackendPIA.Forms;
 using BackendPIA.Models;
 using BackendPIA.Services;
+using BackendPIA.Errors;
 using BackendPIA.Logics;
 
 namespace BackendPIA.Controllers {
-    [Route("api/admin")]
+    [Route("api/")]
     [ApiController]
-    public class AdministratorsController : ControllerBase {
+    public class UserAccountsController : ControllerBase {
         private readonly IUserAccountService _user_account_service;
         private readonly IMapper _mapper;
         private readonly ITokenGenerator _token_generator;
         private readonly UserManager<UserAccount> _manager;
 
-        public AdministratorsController(UserManager<UserAccount> manager, IUserAccountService user_account_service, 
-                                        ITokenGenerator token_generator, IMapper mapper) 
+        public UserAccountsController(UserManager<UserAccount> manager, IUserAccountService user_account_service, 
+                                      ITokenGenerator token_generator, IMapper mapper) 
         {
             _user_account_service = user_account_service;
             _mapper = mapper;
-            _token_generator = token_generator;
             _manager = manager;
+            _token_generator = token_generator;
         }
 
-        [Authorize(Roles = "Administrator")]
         [HttpPost("signup")]
         public async Task<ActionResult<AuthenticationToken>> Create(UserAccountForm form) {
-            CreateUserAccountLogic logic = new CreateUserAccountLogic(_token_generator, _manager, form, _mapper, _user_account_service, "Administrator");
+            CreateUserAccountLogic logic = new CreateUserAccountLogic(_token_generator, _manager, form, _mapper, _user_account_service, "Regular");
             var result = await logic.Call();
 
             if(result) 

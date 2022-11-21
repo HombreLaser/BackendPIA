@@ -16,7 +16,8 @@ namespace BackendPIA.Logics {
         }
 
         protected async Task SetAuthenticationToken(UserAccount user) {
-            _token = new AuthenticationToken { Token = _token_generator.Generate(user, "administrator"), 
+            var roles =  await _manager.GetRolesAsync(user);
+            _token = new AuthenticationToken { Token = _token_generator.Generate(user, roles[0]), 
                                                RefreshToken = _token_generator.GenerateRefreshToken() };
             await SetUserRefreshToken(user);
         }

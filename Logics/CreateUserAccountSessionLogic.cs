@@ -4,23 +4,23 @@ using BackendPIA.Models;
 using BackendPIA.Forms;
 
 namespace BackendPIA.Logics {
-    public class CreateAdministratorSessionLogic : BaseUserAccountLogic {
+    public class CreateUserAccountSessionLogic : BaseUserAccountLogic {
         private readonly UserAccountLoginForm _form;
 
-        public CreateAdministratorSessionLogic(ITokenGenerator token_generator, UserManager<UserAccount> manager, UserAccountLoginForm form) : base(token_generator, manager) {
+        public CreateUserAccountSessionLogic(ITokenGenerator token_generator, UserManager<UserAccount> manager, UserAccountLoginForm form) : base(token_generator, manager) {
             _form = form;
         }
 
         public async Task<bool> Call() {
             var user = await _manager.FindByEmailAsync(_form.Email);
 
-            if(user == null)
+            if(user == null )
                 return false;
-
+                
             var result = await _manager.CheckPasswordAsync(user, _form.Password);
 
             if(result) {
-                SetAuthenticationToken(user);
+                await SetAuthenticationToken(user);
 
                 return true;
             }
