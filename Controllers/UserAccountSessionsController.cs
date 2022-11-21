@@ -1,5 +1,5 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using BackendPIA.Forms;
 using BackendPIA.Models;
@@ -11,12 +11,14 @@ namespace BackendPIA.Controllers {
     [Route("api/")]
     [ApiController]
     public class AdministratorSessionsController : ControllerBase {
+        private readonly ApplicationDbContext _context;
         private readonly ITokenGenerator _token_generator;
         private readonly UserManager<UserAccount> _manager;
 
-        public AdministratorSessionsController(ITokenGenerator token_generator, UserManager<UserAccount> manager) {
+        public AdministratorSessionsController(ITokenGenerator token_generator, UserManager<UserAccount> manager, ApplicationDbContext context) {
             _token_generator = token_generator;
             _manager = manager;
+            _context = context;
         }
 
         [HttpPost("login")]
@@ -29,5 +31,17 @@ namespace BackendPIA.Controllers {
 
             return StatusCode(401, new InvalidLoginError(401, "Check your credentials"));
         }
+
+        // [Authorize]
+        [HttpPost("refresh")]
+        public async Task<ActionResult<AuthenticationToken>> Refresh(AuthenticationToken form) {
+            RefreshTokenLogic logic = new RefreshTokenLogic(_token_generator, _manager, form);
+            var result = await logic.Call();
+
+            if(result)
+                return Ok(logic.Token);
+
+            return StatusCode(403, new ExpiredSessionError(401, "Check your refresh token"));
+        }    
     }
 }

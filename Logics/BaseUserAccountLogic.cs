@@ -19,11 +19,10 @@ namespace BackendPIA.Logics {
             var roles =  await _manager.GetRolesAsync(user);
             _token = new AuthenticationToken { Token = _token_generator.Generate(user, roles[0]), 
                                                RefreshToken = _token_generator.GenerateRefreshToken() };
-            await SetUserRefreshToken(user);
         }
 
         // We overwrite or set the value of the session token in the database: all other previous logins are invalid.
-        private async Task SetUserRefreshToken(UserAccount user) {
+        protected async Task SetUserRefreshToken(UserAccount user) {
             user.SessionToken = _token.RefreshToken;
             user.SessionTokenExpiryTime = DateTime.UtcNow.AddHours(3);
             await _manager.UpdateAsync(user);

@@ -21,6 +21,7 @@ namespace BackendPIA.Logics {
 
             if(result) {
                 await SetAuthenticationToken(user);
+                await SetUserRefreshToken(user);
 
                 return true;
             }

@@ -36,5 +36,26 @@ namespace BackendPIA.Services {
             
             return Convert.ToBase64String(random_number);
         }
+
+        public string? GetPrincipalFromToken(string token) {
+            var tokenValidationParameters = new TokenValidationParameters {
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key)),
+                ValidateLifetime = false
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken security_token;
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out security_token);
+            var jwtSecurityToken = security_token as JwtSecurityToken;
+            
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                return null;
+
+            var jwt = tokenHandler.ReadJwtToken(token);
+
+            return jwt.Claims.Where(c => c.Type == "email").First().Value;
+        }
     }
 }
