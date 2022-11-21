@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackendPIA.Models {
     public class ApplicationDbContext : IdentityDbContext<UserAccount> {
+        public DbSet<Raffle>? Raffles { get; set; }
+
 	    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
 
         protected override void OnModelCreating(ModelBuilder builder) {
