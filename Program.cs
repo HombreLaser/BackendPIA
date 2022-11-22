@@ -2,10 +2,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text.Json.Serialization;
+    // using System.IdentityModel.Tokens.Jwt;
+    // using System.Text.Json.Serialization;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using BackendPIA;
 using BackendPIA.Models;
 using BackendPIA.Services;
 
@@ -13,7 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers(options => { 
+                                    options.InputFormatters.Insert(0, JPIF.GetJsonPatchInputFormatter());
+                                }).AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("ApplicationDbContext")));
