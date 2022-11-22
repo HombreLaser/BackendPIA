@@ -21,7 +21,7 @@ namespace BackendPIA.Controllers {
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Raffle>> Get([FromQuery] string name = "") {
+        public async Task<IEnumerable<Raffle>> Index([FromQuery] string name = "") {
             return await _service.GetRaffles(name);
         }
 

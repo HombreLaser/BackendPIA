@@ -6,5 +6,6 @@ namespace BackendPIA.Models {
         [StringLength(64)]
         public string? SessionToken { get; set; }
         public DateTime? SessionTokenExpiryTime { get; set; }
+        public ICollection<Ticket>? Tickets { get; set; }
     }
 }
