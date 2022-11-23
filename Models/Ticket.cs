@@ -8,8 +8,9 @@ namespace BackendPIA.Models {
         public int Number { get; set; }
         public bool IsWinner { get; set; }
         [Required]
-        public long UserAccountId { get; set; }
+        public string? UserAccountId { get; set; }
         [Required]
+
         public long RaffleId { get; set; }
         public UserAccount? Owner { get; set; }
         public Raffle? Raffle { get; set; }

@@ -20,7 +20,8 @@ namespace BackendPIA.Profiles {
                     Id = ticket.Id,
                     Number = ticket.Number,
                     IsWinner = ticket.IsWinner,
-                    RaffleId = ticket.RaffleId
+                    RaffleId = ticket.RaffleId,
+                    UserAccountId = user.Id
                 });
             }
 
