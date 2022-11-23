@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using BackendPIA.Models;
+using BackendPIA.Forms;
 
 namespace BackendPIA.Services {
     public class UserAccountService : IUserAccountService {
@@ -14,6 +15,12 @@ namespace BackendPIA.Services {
 
             if(result.Succeeded)
                 await _manager.AddToRoleAsync(user, role);
+
+            return result;
+        }
+
+        public async Task<UserAccount> GetUserAccount(string email) {
+            var result = await _manager.FindByEmailAsync(email);
 
             return result;
         }

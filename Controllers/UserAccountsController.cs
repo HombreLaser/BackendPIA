@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using BackendPIA.Forms;
 using BackendPIA.Models;
 using BackendPIA.Services;
+using Microsoft.AspNetCore.Authorization;
 using BackendPIA.Errors;
 using BackendPIA.Logics;
 
@@ -23,6 +24,18 @@ namespace BackendPIA.Controllers {
             _mapper = mapper;
             _manager = manager;
             _token_generator = token_generator;
+        }
+
+        [HttpGet("user")]
+        [Authorize(Roles = "Regular")]
+        public async Task<ActionResult<UserAccountDTO>> Show() {
+            string email = HttpContext.User.Claims.Where(c => c.Type.Contains("email")).First().Value;
+            var user = await _user_account_service.GetUserAccount(email);
+
+            if(user == null)
+                return StatusCode(404, "User couldn't be found.");
+
+            return Ok(_mapper.Map<UserAccountDTO>(user));
         }
 
         [HttpPost("signup")]
