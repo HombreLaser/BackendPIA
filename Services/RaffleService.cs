@@ -38,12 +38,7 @@ namespace BackendPIA.Services {
         }
 
         public async Task<Raffle> GetRaffle(long id) {
-            var raffle = await _context.Raffles.FindAsync(id);
-
-            if(raffle == null)
-                return null;
-
-            return raffle;
+            return await _context.Raffles.FindAsync(id);
         }
 
         public async Task<bool> DeleteRaffle(long id) {

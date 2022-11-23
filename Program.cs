@@ -28,6 +28,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddSingleton<ITokenGenerator>(s => new TokenGenerator(builder.Configuration["Jwt:Key"]));
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 builder.Services.AddScoped<IRaffleService, RaffleService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
 // End of custom services configuration.
 
 // Swagger configuration.
