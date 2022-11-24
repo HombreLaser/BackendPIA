@@ -22,6 +22,35 @@ namespace BackendPIA.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("BackendPIA.Models.Prize", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("RaffleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Tier")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RaffleId");
+
+                    b.ToTable("Prizes");
+                });
+
             modelBuilder.Entity("BackendPIA.Models.Raffle", b =>
                 {
                     b.Property<long>("Id")
@@ -277,6 +306,17 @@ namespace BackendPIA.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("BackendPIA.Models.Prize", b =>
+                {
+                    b.HasOne("BackendPIA.Models.Raffle", "Raffle")
+                        .WithMany()
+                        .HasForeignKey("RaffleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Raffle");
                 });
 
             modelBuilder.Entity("BackendPIA.Models.Ticket", b =>

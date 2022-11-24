@@ -5,6 +5,7 @@ namespace BackendPIA.Models {
     public class ApplicationDbContext : IdentityDbContext<UserAccount> {
         public DbSet<Raffle>? Raffles { get; set; }
         public DbSet<Ticket>? Tickets { get; set; }
+        public DbSet<Prize>? Prizes { get; set; }
 
 	    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
 
