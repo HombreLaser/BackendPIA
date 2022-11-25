@@ -11,5 +11,6 @@ namespace BackendPIA.Models {
         public int Winners { get; set; }
         public bool IsClosed { get; set; }
         public ICollection<Ticket>? Tickets { get; set; }
+        public ICollection<Prize>? Prizes { get; set; }
     }
 }
