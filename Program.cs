@@ -26,6 +26,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 // Custom services configuration.
 builder.Services.AddSingleton<ITokenGenerator>(s => new TokenGenerator(builder.Configuration["Jwt:Key"]));
+builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 builder.Services.AddScoped<IRaffleService, RaffleService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
