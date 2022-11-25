@@ -29,6 +29,7 @@ builder.Services.AddSingleton<ITokenGenerator>(s => new TokenGenerator(builder.C
 builder.Services.AddScoped<IUserAccountService, UserAccountService>();
 builder.Services.AddScoped<IRaffleService, RaffleService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<IPrizeService, PrizeService>();
 // End of custom services configuration.
 
 // Swagger configuration.

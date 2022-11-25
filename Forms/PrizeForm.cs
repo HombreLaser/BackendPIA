@@ -9,6 +9,7 @@ namespace BackendPIA.Forms {
         public string? Name { get; set; }
         [Required]
         [UniqueTier]
+        [Range(0, 53)]
         public int Tier { get; set; }
         [Required]
         public string? Category { get; set; }
