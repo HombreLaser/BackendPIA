@@ -9,5 +9,6 @@ namespace BackendPIA.Services {
         public Task<bool> DeleteRaffle(long id);
         public Task<IEnumerable<int>> GetTakenTickets(long id);
         public IEnumerable<Ticket> GetRaffleTickets(long id);
+        public Task<IEnumerable<RaffleWinner>> GetRaffleWinners(long id);
     }
 }

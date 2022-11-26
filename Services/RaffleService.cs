@@ -60,5 +60,10 @@ namespace BackendPIA.Services {
         public IEnumerable<Ticket> GetRaffleTickets(long id) {
             return _context.Tickets.Where(t => t.RaffleId == id);
         }
+
+        public async Task<IEnumerable<RaffleWinner>> GetRaffleWinners(long id) {
+            return await _context.RaffleWinners.Include(rw => rw.UserAccount).Include(rw => rw.Raffle).Include(rw => rw.Prize)
+                                               .Where(rw => rw.RaffleId == id).ToListAsync();
+        }
     }
 }

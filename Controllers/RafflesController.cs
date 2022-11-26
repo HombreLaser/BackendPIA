@@ -82,14 +82,30 @@ namespace BackendPIA.Controllers {
 
         [Authorize(Roles = "Administrator")]
         [HttpPost("{id:int}/play")]
-        public async Task<ActionResult<IEnumerable<RaffleWinner>>> Play(long id) {
+        public async Task<ActionResult<IEnumerable<WinnerDTO>>> Play(long id) {
             RafflePlayLogic logic = new RafflePlayLogic(_game_service, _service, id);
             bool result = await logic.Call();
             
             if(!result)
                 return BadRequest(new { ErrorMessage = logic.ErrorMessage });
 
-            return Ok(logic.Winners);
+            return Ok(_mapper.Map<IEnumerable<WinnerDTO>>(logic.Winners));
+        }
+
+        [Authorize]
+        [HttpGet("{id:int}/winners")]
+        public async Task<ActionResult<IEnumerable<WinnerDTO>>> GetWinners(long id) {
+            var raffle = await _service.GetRaffle(id);
+
+            if(raffle == null)
+                return NotFound(new NotFoundError(404, $"The raffle with id {id} doesn't exist."));
+
+            if(!raffle.IsClosed)
+                return NotFound(new NotFoundError(404, $"The raffle with id {id} doesn't have any winners yet."));
+
+            var result = await _service.GetRaffleWinners(id);
+
+            return Ok(_mapper.Map<IEnumerable<WinnerDTO>>(result));
         }
     }
 }
