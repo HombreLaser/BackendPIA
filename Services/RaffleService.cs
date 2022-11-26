@@ -52,5 +52,13 @@ namespace BackendPIA.Services {
 
             return true;
         }
+
+        public async Task<IEnumerable<int>> GetTakenTickets(long id) {
+            return await _context.Tickets.Where(t => t.RaffleId == id).Select(t => t.Number).ToListAsync();
+        }
+
+        public IEnumerable<Ticket> GetRaffleTickets(long id) {
+            return _context.Tickets.Where(t => t.RaffleId == id);
+        }
     }
 }
