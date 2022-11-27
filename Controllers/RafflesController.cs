@@ -22,48 +22,50 @@ namespace BackendPIA.Controllers {
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Raffle>> Index([FromQuery] string name = "") {
-            return await _service.GetRaffles(name);
+        public async Task<ActionResult<IEnumerable<RaffleDTO>>> Index([FromQuery] string name = "") {
+           var result = await _service.GetRaffles(name);
+           
+           return Ok(_mapper.Map<IEnumerable<RaffleDTO>>(result));
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Raffle>> Show(long id) {    
+        public async Task<ActionResult<RaffleDTO>> Show(long id) {    
             var raffle = await _service.GetRaffle(id);
 
             if(raffle == null)
-                return NotFound("The resource couldn't be found");
+                return NotFound(new NotFoundError(404, $"The raffle with id {id} doesn't exist or doesn't have any tickets."));
 
-            return raffle;
+            return Ok(_mapper.Map<RaffleDTO>(raffle));
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator", Policy = "ValidToken")]
         [HttpPost]
-        public async Task<ActionResult<Raffle>> Create(RaffleForm form) {
+        public async Task<ActionResult<RaffleDTO>> Create(RaffleForm form) {
             var raffle = await _service.CreateRaffle(_mapper.Map<Raffle>(form));
 
-            return raffle;
+            return Ok(_mapper.Map<RaffleDTO>(raffle));
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator", Policy = "ValidToken")]
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<Raffle>> Update(long id, RaffleForm form) {
+        public async Task<ActionResult<RaffleDTO>> Update(long id, RaffleForm form) {
             var raffle = _mapper.Map<Raffle>(form);
             raffle.Id = id;
             var result = await _service.UpdateRaffle(raffle);
 
             if(result == null)
-                return NotFound("The resource couldn't be found.");
+                return NotFound(new NotFoundError(404, $"The raffle with id {id} doesn't exist or doesn't have any tickets."));
 
-            return raffle;
+            return Ok(_mapper.Map<RaffleDTO>(raffle));
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator", Policy = "ValidToken")]
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(long id) {
             var result = await _service.DeleteRaffle(id);
 
             if(!result)
-                return NotFound("The resource couldn't be found.");
+                return NotFound(new NotFoundError(404, $"The raffle with id {id} doesn't exist or doesn't have any tickets."));
 
             return StatusCode(303, new { Message = "The resource has been deleted"} );
         }
@@ -80,7 +82,7 @@ namespace BackendPIA.Controllers {
             return Ok(new { Numbers = available_tickets.Except(taken_tickets) });
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator", Policy = "ValidToken")]
         [HttpPost("{id:int}/play")]
         public async Task<ActionResult<IEnumerable<WinnerDTO>>> Play(long id) {
             RafflePlayLogic logic = new RafflePlayLogic(_game_service, _service, id);
@@ -92,7 +94,7 @@ namespace BackendPIA.Controllers {
             return Ok(_mapper.Map<IEnumerable<WinnerDTO>>(logic.Winners));
         }
 
-        [Authorize]
+        [Authorize(Policy = "ValidToken")]
         [HttpGet("{id:int}/winners")]
         public async Task<ActionResult<IEnumerable<WinnerDTO>>> GetWinners(long id) {
             var raffle = await _service.GetRaffle(id);

@@ -24,7 +24,7 @@ namespace BackendPIA.Controllers {
             _manager = manager;
         }
 
-        [Authorize]
+        [Authorize(Policy = "ValidToken")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TicketDTO>>> Index(long raffleId) {
             var result = await _ticket_service.GetTickets(raffleId);
@@ -35,7 +35,7 @@ namespace BackendPIA.Controllers {
             return Ok(_mapper.Map<List<TicketDTO>>(result));
         }
 
-        [Authorize]
+        [Authorize(Policy = "ValidToken")]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<TicketDTO>> Show(long raffleId, long id) {
             var result = await _ticket_service.GetTicket(raffleId, id);
@@ -46,7 +46,7 @@ namespace BackendPIA.Controllers {
             return Ok(_mapper.Map<TicketDTO>(result));
         }
 
-        [Authorize]
+        [Authorize(Policy = "ValidToken")]
         [HttpPost]
         public async Task <ActionResult<TicketDTO>> Create(long raffleId, TicketForm form) {
             string email = HttpContext.User.Claims.Where(c => c.Type.Contains("email")).First().Value;
@@ -60,7 +60,7 @@ namespace BackendPIA.Controllers {
             return Ok(_mapper.Map<TicketDTO>(logic.Created));
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator", Policy = "ValidToken")]
         [HttpDelete("{id:int}")]
         public async Task <ActionResult> Delete(long raffleId, long id) {
             bool result = await _ticket_service.DeleteTicket(raffleId, id);

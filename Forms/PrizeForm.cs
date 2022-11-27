@@ -1,9 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using BackendPIA.Validations;
 
 namespace BackendPIA.Forms {
     public class PrizeForm {
         [Required]
+        [ForeignKey("RaffleId")]
+        [IsNotClosed]
         public long RaffleId { get; set; }
         [Required]
         public string? Name { get; set; }

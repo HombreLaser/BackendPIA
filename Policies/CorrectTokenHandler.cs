@@ -13,13 +13,16 @@ namespace BackendPIA.Policies {
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CorrectTokenRequirement requirement) {
             if(context.Resource is HttpContext httpContext) {
-                var user = _manager.FindByEmailAsync(context.User.Claims.Where(c => c.Type.Contains("email")).First().Value).Result;
+                var claims = context.User.Claims.Where(c => c.Type.Contains("email"));
+                if(claims != null) {
+                    var user = _manager.FindByEmailAsync(claims.First().Value).Result;
 
-                if(user != null) {
-                    string token = httpContext.Request.Headers["Authorization"].ToString().Split(' ')[1];
+                    if(user != null) {
+                        string token = httpContext.Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-                    if(user.CurrentToken != null && user.CurrentToken == token)
-                        context.Succeed(requirement);
+                        if(user.CurrentToken != null && user.CurrentToken == token)
+                            context.Succeed(requirement);
+                    }
                 }
             }
 

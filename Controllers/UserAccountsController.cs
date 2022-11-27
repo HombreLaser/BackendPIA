@@ -27,7 +27,7 @@ namespace BackendPIA.Controllers {
         }
 
         [HttpGet("user")]
-        [Authorize(Roles = "Regular")]
+        [Authorize(Roles = "Regular", Policy = "ValidToken")]
         public async Task<ActionResult<UserAccountDTO>> Show() {
             string email = HttpContext.User.Claims.Where(c => c.Type.Contains("email")).First().Value;
             var user = await _user_account_service.GetUserAccount(email);

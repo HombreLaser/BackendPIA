@@ -39,7 +39,7 @@ namespace BackendPIA.Controllers {
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator", Policy = "ValidToken")]
         public async Task<ActionResult<Prize>> Create(PrizeForm form) {
             if(!_context.Raffles.Any(r => r.Id == form.RaffleId))
                 return BadRequest(new NotFoundError(404, $"The raffle with id {form.RaffleId} couldn't be found"));

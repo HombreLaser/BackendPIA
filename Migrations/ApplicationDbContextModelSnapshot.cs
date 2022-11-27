@@ -48,7 +48,7 @@ namespace BackendPIA.Migrations
 
                     b.HasIndex("RaffleId");
 
-                    b.ToTable("Prizes");
+                    b.ToTable("Prizes", (string)null);
                 });
 
             modelBuilder.Entity("BackendPIA.Models.Raffle", b =>
@@ -72,7 +72,7 @@ namespace BackendPIA.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Raffles");
+                    b.ToTable("Raffles", (string)null);
                 });
 
             modelBuilder.Entity("BackendPIA.Models.RaffleWinner", b =>
@@ -101,7 +101,7 @@ namespace BackendPIA.Migrations
 
                     b.HasIndex("UserAccountId");
 
-                    b.ToTable("RaffleWinners");
+                    b.ToTable("RaffleWinners", (string)null);
                 });
 
             modelBuilder.Entity("BackendPIA.Models.Ticket", b =>
@@ -131,7 +131,7 @@ namespace BackendPIA.Migrations
 
                     b.HasIndex("UserAccountId");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Tickets", (string)null);
                 });
 
             modelBuilder.Entity("BackendPIA.Models.UserAccount", b =>

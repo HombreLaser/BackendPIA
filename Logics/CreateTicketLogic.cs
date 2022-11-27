@@ -24,13 +24,22 @@ namespace BackendPIA.Logics {
         }
 
         public async Task<bool> Call() {
+            var raffle = _context.Raffles.Find(_raffle_id);
+
             // Check if the user exists.
             if(_user == null)
                 return false;
 
             // Check if the given raffle exists-
-            if(!_context.Raffles.Any(r => r.Id == _raffle_id)) {
+            if(raffle == null) {
                 ErrorMessage = "The raffle doesn't exist.";
+
+                return false;
+            }
+
+            // Check if the raffle has already closed.
+            if(raffle.IsClosed) {
+                ErrorMessage = "The raffle is already closed.";
 
                 return false;
             }

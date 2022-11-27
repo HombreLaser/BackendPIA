@@ -25,7 +25,7 @@ namespace BackendPIA.Controllers {
             _manager = manager;
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator", Policy = "ValidToken")]
         [HttpPost("signup")]
         public async Task<ActionResult<AuthenticationToken>> Create(UserAccountForm form) {
             CreateUserAccountLogic logic = new CreateUserAccountLogic(_token_generator, _manager, form, _mapper, _user_account_service, "Administrator");
