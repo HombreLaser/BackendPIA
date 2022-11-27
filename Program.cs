@@ -9,6 +9,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using BackendPIA;
 using BackendPIA.Models;
+using BackendPIA.Jobs;
 using BackendPIA.Policies;
 using BackendPIA.Services;
 
@@ -25,6 +26,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseNpgsql(builder
 builder.Services.AddIdentity<UserAccount, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 // Automapper configuration.
 builder.Services.AddAutoMapper(typeof(Program));
+
+// Hosted services.
+builder.Services.AddHostedService<LoggerJob>();
 
 // Custom services configuration.
 builder.Services.AddSingleton<ITokenGenerator>(s => new TokenGenerator(builder.Configuration["Jwt:Key"]));
