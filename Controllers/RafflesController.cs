@@ -68,7 +68,7 @@ namespace BackendPIA.Controllers {
             return StatusCode(303, new { Message = "The resource has been deleted"} );
         }
 
-        [Authorize]
+        [Authorize(Policy = "ValidToken")]
         [HttpGet("{id:int}/available_tickets")]
         public async Task<ActionResult<IEnumerable<int>>> AvailableTickets(long id) {
             IEnumerable<int> available_tickets = from number in Enumerable.Range(1, 54) select number;

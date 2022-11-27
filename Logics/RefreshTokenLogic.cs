@@ -26,6 +26,7 @@ namespace BackendPIA.Logics {
                || user.SessionToken == null || user.SessionToken != _form.RefreshToken) {
                 user.SessionToken = null;
                 user.SessionTokenExpiryTime = null;
+                user.CurrentToken = null;
                 _manager.UpdateAsync(user);
 
                 return false;

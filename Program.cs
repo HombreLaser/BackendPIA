@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -8,6 +9,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using BackendPIA;
 using BackendPIA.Models;
+using BackendPIA.Policies;
 using BackendPIA.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +34,8 @@ builder.Services.AddScoped<IRaffleService, RaffleService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IPrizeService, PrizeService>();
 // End of custom services configuration.
+// Register the custom authorization handler.
+builder.Services.AddScoped<IAuthorizationHandler, CorrectTokenHandler>();
 
 // Swagger configuration.
 builder.Services.AddEndpointsApiExplorer();
@@ -75,6 +79,10 @@ builder.Services.AddAuthentication(options => {
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
         ClockSkew = TimeSpan.Zero }
     );
+
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy("ValidToken", policy => policy.Requirements.Add(new CorrectTokenRequirement()));
+});
 // End of authentication configuration.
 
 // Identity configuration.
