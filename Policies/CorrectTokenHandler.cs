@@ -14,7 +14,7 @@ namespace BackendPIA.Policies {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CorrectTokenRequirement requirement) {
             if(context.Resource is HttpContext httpContext) {
                 var claims = context.User.Claims.Where(c => c.Type.Contains("email"));
-                if(claims != null) {
+                if(claims.Any()) {
                     var user = _manager.FindByEmailAsync(claims.First().Value).Result;
 
                     if(user != null) {

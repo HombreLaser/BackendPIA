@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using BackendPIA.Models;
+using BackendPIA.Forms;
 
 namespace BackendPIA.Services {
     public class RaffleService : IRaffleService {
@@ -64,6 +65,14 @@ namespace BackendPIA.Services {
         public async Task<IEnumerable<RaffleWinner>> GetRaffleWinners(long id) {
             return await _context.RaffleWinners.Include(rw => rw.UserAccount).Include(rw => rw.Raffle).Include(rw => rw.Prize)
                                                .Where(rw => rw.RaffleId == id).ToListAsync();
+        }
+
+        public bool RaffleExists(long id) {
+            return _context.Raffles.Any(r => r.Id == id);
+        }
+
+        public IEnumerable<Prize> GetRafflePrizes(long id) {
+            return _context.Prizes.Where(p => p.RaffleId == id).ToList();
         }
     }
 }

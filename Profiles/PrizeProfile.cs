@@ -9,7 +9,8 @@ namespace BackendPIA.Profiles {
         public PrizeProfile() {
             CreateMap<PrizeForm, Prize>();
             CreateMap<JsonPatchDocument<PrizeForm>, JsonPatchDocument<Prize>>();
-            CreateMap<Operation<PrizeForm>, Operation<Prize>>(); 
+            CreateMap<Operation<PrizeForm>, Operation<Prize>>();
+            CreateMap<Prize, PrizeDTO>();
         }
     }
 }

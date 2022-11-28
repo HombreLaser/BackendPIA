@@ -24,12 +24,12 @@ namespace BackendPIA.Controllers {
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RaffleDTO>>> Index([FromQuery] string name = "") {
            var result = await _service.GetRaffles(name);
-           
+
            return Ok(_mapper.Map<IEnumerable<RaffleDTO>>(result));
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<RaffleDTO>> Show(long id) {    
+        public async Task<ActionResult<RaffleDTO>> Show(long id) {
             var raffle = await _service.GetRaffle(id);
 
             if(raffle == null)
@@ -76,8 +76,11 @@ namespace BackendPIA.Controllers {
             IEnumerable<int> available_tickets = from number in Enumerable.Range(1, 54) select number;
             IEnumerable<int> taken_tickets = await _service.GetTakenTickets(id);
 
+            if(!_service.RaffleExists(id))
+                return NotFound(new NotFoundError(404, $"The raffle with id {id} doesn't exist."));
+
             if(!taken_tickets.Any())
-                return NotFound(new NotFoundError(404, $"The raffle with id {id} doesn't exist or doesn't have any tickets."));
+                return Ok(new { Numbers = available_tickets });
 
             return Ok(new { Numbers = available_tickets.Except(taken_tickets) });
         }
@@ -87,7 +90,7 @@ namespace BackendPIA.Controllers {
         public async Task<ActionResult<IEnumerable<WinnerDTO>>> Play(long id) {
             RafflePlayLogic logic = new RafflePlayLogic(_game_service, _service, id);
             bool result = await logic.Call();
-            
+
             if(!result)
                 return BadRequest(new { ErrorMessage = logic.ErrorMessage });
 
@@ -108,6 +111,18 @@ namespace BackendPIA.Controllers {
             var result = await _service.GetRaffleWinners(id);
 
             return Ok(_mapper.Map<IEnumerable<WinnerDTO>>(result));
+        }
+
+        [HttpGet("{id:int}/prizes")]
+        public async Task<ActionResult<IEnumerable<PrizeDTO>>> GetPrizes(long id) {
+            var raffle = await _service.GetRaffle(id);
+
+            if(raffle == null)
+                return NotFound(new NotFoundError(404, $"The raffle with id {id} doesn't exist."));
+
+            var prizes = _service.GetRaffleTickets(id);
+
+            return Ok(_mapper.Map<IEnumerable<PrizeDTO>>(prizes));
         }
     }
 }

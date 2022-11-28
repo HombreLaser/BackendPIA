@@ -5,9 +5,11 @@ using BackendPIA.Forms;
 namespace BackendPIA.Services {
     public class UserAccountService : IUserAccountService {
         private readonly UserManager<UserAccount> _manager;
+        private readonly ApplicationDbContext _context;
 
-        public UserAccountService(UserManager<UserAccount> manager) {
+        public UserAccountService(UserManager<UserAccount> manager, ApplicationDbContext context) {
             _manager = manager;
+            _context = context;
         }
 
         public async Task<IdentityResult> CreateUserAccount(UserAccount user, string password, string role) {
@@ -21,6 +23,9 @@ namespace BackendPIA.Services {
 
         public async Task<UserAccount> GetUserAccount(string email) {
             var result = await _manager.FindByEmailAsync(email);
+
+            if(result != null)
+                result.Tickets = _context.Tickets.Where(t => t.Owner == result).ToList();
 
             return result;
         }

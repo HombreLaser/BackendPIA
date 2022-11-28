@@ -7,6 +7,7 @@ namespace BackendPIA.Forms {
         [Required]
         [ForeignKey("RaffleId")]
         [IsNotClosed]
+        [MaximumWinners]
         public long RaffleId { get; set; }
         [Required]
         public string? Name { get; set; }
