@@ -120,7 +120,7 @@ namespace BackendPIA.Controllers {
             if(raffle == null)
                 return NotFound(new NotFoundError(404, $"The raffle with id {id} doesn't exist."));
 
-            var prizes = _service.GetRaffleTickets(id);
+            var prizes = _service.GetRafflePrizes(id);
 
             return Ok(_mapper.Map<IEnumerable<PrizeDTO>>(prizes));
         }

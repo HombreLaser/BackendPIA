@@ -10,6 +10,7 @@ namespace BackendPIA.Services {
         public Task<IEnumerable<int>> GetTakenTickets(long id);
         public IEnumerable<Ticket> GetRaffleTickets(long id);
         public Task<IEnumerable<RaffleWinner>> GetRaffleWinners(long id);
+        public IEnumerable<Prize> GetRafflePrizes(long id);
         public bool RaffleExists(long id);
     }
 }

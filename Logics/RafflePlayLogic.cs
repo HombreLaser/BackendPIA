@@ -37,6 +37,12 @@ namespace BackendPIA.Logics {
                 return false;
             }
 
+            if(raffle.Prizes.Count() < raffle.Winners) {
+                ErrorMessage = $"Can't play: not enough prizes.";
+
+                return false;
+            }
+
             Winners = await _game_service.GetWinners(_raffle_id);
 
             return true;

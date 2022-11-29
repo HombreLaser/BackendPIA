@@ -35,11 +35,11 @@ namespace BackendPIA.Services {
             if(String.IsNullOrEmpty(query))
                 return await _context.Raffles.ToListAsync();
             
-            return _context.Raffles.Where(r => r.Name == query);
+            return _context.Raffles.FromSql($"SELECT * FROM \"Raffles\" AS r WHERE r.\"Name\" ILIKE {query}").ToList();
         }
 
         public async Task<Raffle> GetRaffle(long id) {
-            return await _context.Raffles.FindAsync(id);
+            return await _context.Raffles.Include(r => r.Prizes).FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task<bool> DeleteRaffle(long id) {
