@@ -19,6 +19,12 @@ namespace BackendPIA.Logics {
             var raffle = await _raffle_service.GetRaffle(_raffle_id);
 
             // Checks.
+            if(raffle.IsClosed) {
+                ErrorMessage = $"The raffle is already closed.";
+
+                return false;
+            }
+
             if(raffle == null) {
                 ErrorMessage = $"The raffle with id {_raffle_id} couldn't be found.";
 
